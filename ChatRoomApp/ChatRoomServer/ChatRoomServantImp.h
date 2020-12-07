@@ -1,4 +1,4 @@
-ChatRoomApp/ChatRoomServer/ChatRoomServantImp.h #ifndef _ChatRoomServantImp_H_
+#ifndef _ChatRoomServantImp_H_
 #define _ChatRoomServantImp_H_
 
 #include "servant/Application.h"
