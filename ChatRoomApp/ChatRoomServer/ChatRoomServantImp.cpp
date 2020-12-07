@@ -80,7 +80,7 @@ int ChatRoomServantImp::doRequest(tars::TarsCurrentPtr current, vector<char>& re
         if (hdr->flag == 1) {
             TLOGDEBUG("system inform: " << hdr->data << endl);
         } else if (hdr->flag == 2) {
-            sendAll(hdr);
+            //sendAll(hdr);
         } else if (hdr->flag == 3) {
 
         }
