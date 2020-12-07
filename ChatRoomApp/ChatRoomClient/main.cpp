@@ -58,7 +58,7 @@ void heartBeat() {
         } 
         
         if (hdr->type == 1) {
-            cout << "--CRP: length " << hdr->length << " type: " << hdr->type << " falg: " << hdr->flag <<" data: " << hdr->data << endl; 
+            TLOGDEBUG("--CRP: length " << hdr->length << " type: " << hdr->type << " falg: " << hdr->flag <<" data: " << hdr->data << endl); 
         } else {
             continue;
         }
@@ -75,11 +75,11 @@ void recvMessage() {
         if (hdr->length < CRP_MIN_SIZE) {
             if (hdr->type == 3) {
                 if (hdr->flag == 1) {
-                    cout << "system message: " << hdr->data << endl;
+                    TLOGDEBUG("system message: " << hdr->data << endl);
                 } else if (hdr->flag == 2) {
-                    cout << "group chat: " << hdr->data << endl;
+                    TLOGDEBUG("group chat: " << hdr->data << endl);
                 } else if (hdr->flag == 3) {
-                    cout << "single chat: " << hdr->data << endl;
+                    TLOGDEBUG("single chat: " << hdr->data << endl);
                 }
             } else {
                 continue;
