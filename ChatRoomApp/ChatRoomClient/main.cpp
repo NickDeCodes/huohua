@@ -68,7 +68,6 @@ void heartBeat() {
 void recvMessage() {
     char  *tmp = new char[MAX_SIZE];
     Header *hdr = (Header *)tmp;
-    while (true) {
         tcMessage.recv((char *)hdr, MAX_SIZE, 0);
         std::ofstream ofile;
         ofile.open("./" + myName + ".log", std::ios::out | std::ios::app);
@@ -93,7 +92,6 @@ void recvMessage() {
             }
         }
         ofile.close();
-    }
     return ;
 }
 
@@ -115,6 +113,7 @@ void sendMessage() {
         hdr->flag = 2;
         hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
         tcMessage.send((char *)hdr, hdr->length, 0);
+        memset(hdr->data, 0, sizeof(hdr->data));
         system("clear");
     }
     return ;
