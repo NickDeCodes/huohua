@@ -113,7 +113,6 @@ void sendMessage() {
         hdr->flag = 2;
         hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
         tcMessage.send((char *)hdr, hdr->length, 0);
-        memset(hdr->data, 0, sizeof(hdr->data));
         system("clear");
     }
     return ;
