@@ -73,6 +73,8 @@ void recvMessage() {
     while (true) {
         tcMessage.recv((char *)hdr, MAX_SIZE, 0);
         if (hdr->length < CRP_MIN_SIZE) {
+            return ;
+        } else {
             if (hdr->type == 3) {
                 if (hdr->flag == 1) {
                     TLOGDEBUG("system message: " << hdr->data << endl);
