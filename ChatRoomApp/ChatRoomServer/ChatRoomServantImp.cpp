@@ -33,7 +33,7 @@ int ChatRoomServantImp::cleanNode() {
     return 0;
 }
 
-int ChatRoomServantImp::sendAll(tars::TarsCurrentPtr current, Header *hdr) {
+int ChatRoomServantImp::sendAll(Header *hdr) {
     auto iter = nodeMap.begin();
     while (iter != nodeMap.end()) {
         TC_Socket tcAll;
@@ -43,7 +43,7 @@ int ChatRoomServantImp::sendAll(tars::TarsCurrentPtr current, Header *hdr) {
     return 0;
 }
 
-int ChatRoomServantImp::sendTo(tars::TarsCurrentPtr current, Node *to) {
+int ChatRoomServantImp::sendTo(Node *to) {
 
     return 0;
 }

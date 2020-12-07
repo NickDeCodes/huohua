@@ -1,4 +1,4 @@
-#ifndef _ChatRoomServantImp_H_
+ChatRoomApp/ChatRoomServer/ChatRoomServantImp.h #ifndef _ChatRoomServantImp_H_
 #define _ChatRoomServantImp_H_
 
 #include "servant/Application.h"
@@ -63,9 +63,9 @@ public:
 
     virtual int cleanNode();
 
-    virtual int sendAll(tars::TarsCurrentPtr current, Header *hdr);
+    virtual int sendAll(Header *hdr);
 
-    virtual int sendTo(tars::TarsCurrentPtr current, Node *to);
+    virtual int sendTo(Node *to);
 
 };
 /////////////////////////////////////////////////////
