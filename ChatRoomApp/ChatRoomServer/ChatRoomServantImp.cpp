@@ -55,11 +55,10 @@ int ChatRoomServantImp::doRequest(tars::TarsCurrentPtr current, vector<char>& re
     }
         
     const char *pack = &request[0];
-        
     Header *hdr = (Header *)pack;
 
     if (hdr->type == 1) {
-        TLOGDEBUG("--CRP: length:" << hdr->length << " type: " << hdr->type << " flag: " << hdr->flag << " data: " << hdr->data << " uid: "<< current->getUId() << endl);
+        TLOGDEBUG("--CRP: length: " << hdr->length << " type: " << hdr->type << " flag: " << hdr->flag << " data: " << hdr->data << " uid: "<< current->getUId() << endl);
         memcpy(hdr->data, "pang", strlen("pang"));
         current->sendResponse(pack, hdr->length);       
     } else if (hdr->type == 2) {
@@ -68,19 +67,18 @@ int ChatRoomServantImp::doRequest(tars::TarsCurrentPtr current, vector<char>& re
         user.port = current->getPort();
         user.ip = current->getIp();
         user.name = string(hdr->data);
-        string nameMap = to_string(user.fd) + "-" + to_string(user.port) + "-" + user.ip + "+" + user.name;
-        auto iter = nodeMap.find(nameMap);
+        auto iter = nodeMap.find(user.name);
         if (iter != nodeMap.end()) {
-            TLOGDEBUG(nameMap << "-用户已存在" << endl);        
+            TLOGDEBUG(user.name << "-用户已存在" << endl);        
         } else {
-            nodeMap.insert({nameMap, user});
-            TLOGDEBUG(nameMap << "-login! " << endl);        
+            nodeMap.insert({user.name, user});
+            TLOGDEBUG(user.name << "-login! " << endl);        
         }
     } else if (hdr->type == 3) {
         if (hdr->flag == 1) {
             TLOGDEBUG("system inform: " << hdr->data << endl);
         } else if (hdr->flag == 2) {
-            TLOGDEBUG("--CRP: length:" << hdr->length << " type: " << hdr->type << " flag: " << hdr->flag << " data: " << hdr->data << " uid: "<< current->getUId() << endl);
+            // TLOGDEBUG("--CRP: length: " << hdr->length << " type: " << hdr->type << " flag: " << hdr->flag << " data: " << hdr->data << " uid: "<< current->getUId() << endl);
             current->sendResponse(pack, hdr->length);  
             //sendAll();
         } else if (hdr->flag == 3) {
