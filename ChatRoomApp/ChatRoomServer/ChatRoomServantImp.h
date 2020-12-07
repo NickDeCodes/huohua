@@ -7,11 +7,17 @@
 
 const int CRP_MIN_SIZE = 8;
 
-struct Header{
+struct Header {
     int length = 0;
     int16_t type = 0; // 1 for keepalive, 2 for data string
     int16_t flag = 0; // 1 for system, 2 for 群聊, 3 for 单聊
-    char data[0];
+    char data[0]; // 存放Data结构
+};
+
+struct Data {
+    char form[0]; // 发送者
+    char to[0]; // 发给谁
+    char content[0]; // 内容
 };
 
 struct Node {

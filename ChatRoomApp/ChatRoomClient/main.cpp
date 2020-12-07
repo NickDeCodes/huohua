@@ -18,14 +18,22 @@ using namespace ChatRoomApp;
 using namespace tars;
 
 const int MAX_SIZE = 1024;
+const int MIN_SIZE = 32;
 const int CRP_MIN_SIZE = 8;
 
 struct Header {
     int32_t length = 0;
     int16_t type = 0; // 1 for keeplive, 2 login init, 3 for data string 
     int16_t flag = 0; // 1 for system, 2 for 群聊, 3 for 单聊
-    char data[0];
+    char data[0]; // 存放Data结构
 };
+
+struct Data {
+    char form[0]; // 发送者
+    char to[0]; // 发给谁
+    char content[0]; // 内容
+};
+
 int ChatRoomAppPort = 25555;
 string ChatRoomAppIP = "172.16.2.188";
 string myName;
@@ -86,17 +94,17 @@ void sendMessage() {
     tcMessage.send((char *)hdr, hdr->length, 0);
     memset(hdr->data, 0, sizeof(hdr->data));
 
-    while (true) {
-        cout << "请在以下的对话框输入信息，按回车发送\n" << endl;
-        scanf("%[^\n]s", hdr->data);
-        getchar();
-        hdr->type = 2;
-        hdr->flag = 2;
-        hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
-        tcMessage.send((char *)hdr, hdr->length, 0);
-        memset(hdr->data, 0, sizeof(hdr->data));
-        system("clear");
-    }
+    // while (true) {
+    //     cout << "请在以下的对话框输入信息，按回车发送\n" << endl;
+    //     scanf("%[^\n]s", hdr->data);
+    //     getchar();
+    //     hdr->type = 2;
+    //     hdr->flag = 2;
+    //     hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
+    //     tcMessage.send((char *)hdr, hdr->length, 0);
+    //     memset(hdr->data, 0, sizeof(hdr->data));
+    //     system("clear");
+    // }
     return ;
 }
 
