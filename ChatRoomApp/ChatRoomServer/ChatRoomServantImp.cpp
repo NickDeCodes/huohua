@@ -33,7 +33,7 @@ int ChatRoomServantImp::cleanNode() {
     return 0;
 }
 
-int ChatRoomServantImp::sendAll(Header *hdr) {
+int ChatRoomServantImp::sendAll(tars::TarsCurrentPtr current, Header *hdr) {
     auto iter = nodeMap.begin();
     while (iter != nodeMap.end()) {
         TC_Socket tcAll;
@@ -43,7 +43,7 @@ int ChatRoomServantImp::sendAll(Header *hdr) {
     return 0;
 }
 
-int ChatRoomServantImp::sendTo(Node *to) {
+int ChatRoomServantImp::sendTo(tars::TarsCurrentPtr current, Node *to) {
 
     return 0;
 }
@@ -79,7 +79,7 @@ int ChatRoomServantImp::doRequest(tars::TarsCurrentPtr current, vector<char>& re
         if (hdr->flag == 1) {
             TLOGDEBUG("system inform: " << hdr->data << endl);
         } else if (hdr->flag == 2) {
-            sendAll();
+            sendAll(hdr);
         } else if (hdr->flag == 3) {
 
         }
