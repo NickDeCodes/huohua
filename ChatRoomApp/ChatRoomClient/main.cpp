@@ -26,10 +26,6 @@ struct Header {
     char data[0]; // 存放Data结构
 };
 
-Header pingPackge;
-Header sysPackge;
-Header dataPackge;
-
 struct Data {
     char form[0]; // 发送者
     char to[0]; // 发给谁
@@ -45,7 +41,7 @@ TC_Socket tcMessage;
 
 void heartBeat() {
     char *tmp = new char[MAX_SIZE];
-    pingPackge *hdr = (pingPackge *)tmp;
+    Header *hdr = (Header *)tmp;
     while (true) {
         hdr->type = 1;
         hdr->flag = 1;
@@ -71,7 +67,7 @@ void heartBeat() {
 
 void recvMessage() {
     char  *tmp = new char[MAX_SIZE];
-    dataPackge *hdr = (dataPackge *)tmp;
+    Header *hdr = (Header *)tmp;
     while (true) {
         tcMessage.recv((char *)hdr, MAX_SIZE, 0);
         std::ofstream ofile;
@@ -103,7 +99,7 @@ void recvMessage() {
 
 void sendMessage() {
     char *tmp = new char[MAX_SIZE];
-    dataPackge *hdr = (dataPackge *)tmp;
+    Header *hdr = (Header *)tmp;
     hdr->type = 2;
     hdr->flag = 1;
     memcpy(hdr->data, myName.c_str(), myName.length()) ;
@@ -114,8 +110,7 @@ void sendMessage() {
     while (true) {
         cout << "请在以下的对话框输入信息，按回车发送\n" << endl;
         memset(hdr->data, 0, sizeof(hdr->data));
-        scanf("%[^\n]s", hdr->data);
-        getchar();
+        cin >> hdr->data;
         hdr->type = 3;
         hdr->flag = 2;
         hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
