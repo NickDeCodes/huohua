@@ -38,7 +38,7 @@ int ChatRoomAppPort = 25555;
 string ChatRoomAppIP = "172.16.2.188";
 string myName;
 
-TC_ThreadPool tPool;
+TC_ThreadPool tcPool;
 TC_Socket tcMessage;
 
 void heartBeat() {
@@ -116,20 +116,20 @@ int main(int argc,char ** argv) {
     myName = argv[1];
 
     try {
-        tPool.init(5);
-        tPool.start();
+        tcPool.init(5);
+        tcPool.start();
         tcMessage.createSocket();
         tcMessage.connect(ChatRoomAppIP, ChatRoomAppPort);
         try {
-            tPool.exec(bind(&heartBeat));
-            tPool.exec(bind(&recvMessage));
-            tPool.exec(bind(&sendMessage));
+            tcPool.exec(bind(&heartBeat));
+            //tcPool.exec(bind(&recvMessage));
+            //tcPool.exec(bind(&sendMessage));
         } catch(exception &ex) {
             cerr << "ex:" << ex.what() << endl;    
         } catch(...) {
             cerr << "unknown exception." << endl;    
         }
-        tPool.waitForAllDone();
+        tcPool.waitForAllDone();
     } catch(exception& e) {
         cerr << "exception:" << e.what() << endl;
     } catch (...) {
