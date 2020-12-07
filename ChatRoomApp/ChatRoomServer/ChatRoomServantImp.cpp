@@ -34,14 +34,12 @@ int ChatRoomServantImp::cleanNode() {
 }
 
 int ChatRoomServantImp::sendAll(Header *hdr) {
-    auto iter = nodeMap.begin();
     TLOGDEBUG("sendall" << endl);        
-    while (iter != nodeMap.end()) {
+    for (auto iter = nodeMap.begin(); iter != nodeMap.end(); ++iter) {
         TLOGDEBUG("循环" << endl);        
         TC_Socket tcAll;
         tcAll.init(iter->second.fd, true);
-        //tcAll.send((char *)hdr, hdr->length, 0);
-        ++iter;
+        tcAll.send((char *)hdr, hdr->length, 0);
     }
     return 0;
 }
