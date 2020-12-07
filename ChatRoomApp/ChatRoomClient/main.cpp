@@ -58,7 +58,7 @@ void heartBeat() {
         } 
         
         if (hdr->type == 1) {
-            // TLOGDEBUG("--CRP length: " << hdr->length << " type: " << hdr->type << " flag: " << hdr->flag <<" data: " << hdr->data << endl); 
+            cout << "--CRP length: " << hdr->length << " type: " << hdr->type << " flag: " << hdr->flag <<" data: " << hdr->data << endl; 
         } else {
             continue;
         }
@@ -77,11 +77,11 @@ void recvMessage() {
         } else {
             if (hdr->type == 3) {
                 if (hdr->flag == 1) {
-                    // TLOGDEBUG("system message: " << hdr->data << endl);
+                    cout << "system message: " << hdr->data << endl;
                 } else if (hdr->flag == 2) {
-                    // TLOGDEBUG("group chat: " << hdr->data << endl);
+                    cout << "group chat: " << hdr->data << endl;
                 } else if (hdr->flag == 3) {
-                    // TLOGDEBUG("single chat: " << hdr->data << endl);
+                    cout << "single chat: " << hdr->data << endl;
                 }
             } else {
                 continue;
@@ -103,6 +103,7 @@ void sendMessage() {
     memset(hdr->data, 0, sizeof(hdr->data));
 
     while (true) {
+        memset(hdr->data, 0, sizeof(hdr->data));
         cout << "请在以下的对话框输入信息，按回车发送\n" << endl;
         scanf("%[^\n]s", hdr->data);
         getchar();
@@ -110,7 +111,6 @@ void sendMessage() {
         hdr->flag = 2;
         hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
         tcMessage.send((char *)hdr, hdr->length, 0);
-        memset(hdr->data, 0, sizeof(hdr->data));
         system("clear");
     }
     return ;
