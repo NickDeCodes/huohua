@@ -80,7 +80,7 @@ int ChatRoomServantImp::doRequest(tars::TarsCurrentPtr current, vector<char>& re
             hdr->flag = 1;
             memset(hdr->data, 0, sizeof(hdr->data));
             hdr->length = sizeof(hdr);
-            current->sendResponse(hdr, hdr->length); 
+            current->sendResponse((const char *)hdr, hdr->length); 
         } else {
             nodeMap.insert({user.name, user});
             TLOGDEBUG(user.name << "-login! " << endl);        
