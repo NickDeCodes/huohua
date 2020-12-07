@@ -149,11 +149,11 @@ int main(int argc,char ** argv) {
         std::ofstream ofile;
         ofile.open("./" + myName + ".log", std::ios::out | std::ios::app);
         if (hdr->length < CRP_MIN_SIZE) {
-            return ;
+            return 0;
         } else {
             if (hdr->type == 2) {
                 if (hdr->flag == 1) {
-                    return ;
+                    return 0;
                 }
             } else if (hdr->type == 3) {
                 if (hdr->flag == 1) {
