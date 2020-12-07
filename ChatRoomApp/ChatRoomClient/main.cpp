@@ -71,7 +71,7 @@ void recvMessage() {
     while (true) {
         tcMessage.recv((char *)hdr, MAX_SIZE, 0);
         std::ofstream ofile;
-        ofile.open(myName, std::ios::out | std::ios::app);
+        ofile.open("./" + myName + ".log", std::ios::out | std::ios::app);
         if (hdr->length < CRP_MIN_SIZE) {
             return ;
         } else {
