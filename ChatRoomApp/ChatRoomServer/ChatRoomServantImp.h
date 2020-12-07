@@ -61,9 +61,9 @@ public:
 
     virtual int doRequest(tars::TarsCurrentPtr current, vector<char>& response);
 
-    virtual int cleanNode(tars::TarsCurrentPtr current);
+    virtual int cleanNode();
 
-    virtual int sendAll(tars::TarsCurrentPtr current);
+    virtual int sendAll();
 
     virtual int sendTo(tars::TarsCurrentPtr current, Node *to);
 

@@ -28,12 +28,12 @@ int ChatRoomServantImp::testHello(const std::string &sReq, std::string &sRsp, ta
 
 }
 
-int ChatRoomServantImp::cleanNode(tars::TarsCurrentPtr current) {
+int ChatRoomServantImp::cleanNode() {
     
     return 0;
 }
 
-int ChatRoomServantImp::sendAll(tars::TarsCurrentPtr current) {
+int ChatRoomServantImp::sendAll() {
     auto &iter = nodeMap.begin();
     while (iter != nodeMap.end()) {
         TC_Socket tcAll;
