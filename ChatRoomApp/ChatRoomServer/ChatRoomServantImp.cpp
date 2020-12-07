@@ -37,7 +37,8 @@ int ChatRoomServantImp::sendAll(tars::TarsCurrentPtr current, Header *hdr) {
     auto iter = nodeMap.begin();
     while (iter != nodeMap.end()) {
         TC_Socket tcAll;
-        tcAll.init(iter->second->fd, true);
+        Node *node = (Node *)iter;
+        tcAll.init(node->fd, true);
         tcAll.send((char *)hdr, hdr->length, 0);
     }
     return 0;
