@@ -98,6 +98,7 @@ void recvMessage() {
 }
 
 void sendMessage() {
+    char *buff = new char[MAX_SIZE - CRP_MIN_SIZE];
     char *tmp = new char[MAX_SIZE];
     Header *hdr = (Header *)tmp;
     hdr->type = 2;
@@ -110,11 +111,13 @@ void sendMessage() {
 
     while (true) {
         cout << "请在以下的对话框输入信息，按回车发送\n" << endl;
+        memset(buff, 0, sizoef(buff));
         memset(hdr->data, 0, sizeof(hdr->data));
-        scanf("%[^\n]s", hdr->data);
+        scanf("%[^\n]s", buff);
         getchar();
         hdr->type = 3;
         hdr->flag = 2;
+        hdr->data = buff;
         hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
         tcMessage.send((char *)hdr, hdr->length, 0);
         system("clear");
