@@ -1,0 +1,11 @@
+
+module ChatRoomApp
+{
+
+interface ChatRoomServant
+{
+    int test();
+    int testHello(string sReq, out string sRsp);
+};
+
+}; 
