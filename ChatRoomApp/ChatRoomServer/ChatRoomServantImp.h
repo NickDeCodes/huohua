@@ -65,7 +65,7 @@ public:
 
     virtual int sendAll(Header *hdr);
 
-    virtual int sendTo(Node *to);
+    virtual int sendTo(Node *to, Header *hdr);
 
 };
 /////////////////////////////////////////////////////

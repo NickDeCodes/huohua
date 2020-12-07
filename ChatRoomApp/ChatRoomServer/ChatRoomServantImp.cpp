@@ -39,12 +39,15 @@ int ChatRoomServantImp::sendAll(Header *hdr) {
         TC_Socket tcAll;
         tcAll.init(iter->second.fd, true);
         tcAll.send((char *)hdr, hdr->length, 0);
+        ++iter;
     }
     return 0;
 }
 
-int ChatRoomServantImp::sendTo(Node *to) {
-
+int ChatRoomServantImp::sendTo(Node *to, Header *hdr) {
+    TC_Socket tcTo;
+    tcTo.init(to->fd, true);
+    tcTo.send((char *)hdr, hdr->length, 0); 
     return 0;
 }
 
@@ -81,7 +84,7 @@ int ChatRoomServantImp::doRequest(tars::TarsCurrentPtr current, vector<char>& re
         } else if (hdr->flag == 2) {
             sendAll(hdr);
         } else if (hdr->flag == 3) {
-
+            //sendTo(hdr);
         }
     }
   
