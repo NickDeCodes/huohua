@@ -135,8 +135,18 @@ int main(int argc,char ** argv) {
         tcMessage.connect(ChatRoomAppIP, ChatRoomAppPort);
         try {
             tcPool.exec(bind(&heartBeat));
-            tcPool.exec(bind(&recvMessage));
-            tcPool.exec(bind(&sendMessage));
+
+            int pid = 0;
+            if ((pid = fork())< 0) {
+                perror("fork");
+                exit(1);
+            }
+
+            if (pid != 0) {
+                recvMessage();
+            } else {
+                sendMessage();
+            }
         } catch(exception &ex) {
             cerr << "ex:" << ex.what() << endl;    
         } catch(...) {
