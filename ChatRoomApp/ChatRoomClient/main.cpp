@@ -26,6 +26,10 @@ struct Header {
     char data[0]; // 存放Data结构
 };
 
+Header pingPackge;
+Header sysPackge;
+Header dataPackge;
+
 struct Data {
     char form[0]; // 发送者
     char to[0]; // 发给谁
@@ -41,7 +45,7 @@ TC_Socket tcMessage;
 
 void heartBeat() {
     char *tmp = new char[MAX_SIZE];
-    Header *hdr = (Header *)tmp;
+    pingPackge *hdr = (pingPackge *)tmp;
     while (true) {
         hdr->type = 1;
         hdr->flag = 1;
@@ -67,7 +71,7 @@ void heartBeat() {
 
 void recvMessage() {
     char  *tmp = new char[MAX_SIZE];
-    Header *hdr = (Header *)tmp;
+    dataPackge *hdr = (dataPackge *)tmp;
     while (true) {
         tcMessage.recv((char *)hdr, MAX_SIZE, 0);
         std::ofstream ofile;
@@ -98,27 +102,22 @@ void recvMessage() {
 }
 
 void sendMessage() {
-    char *buff = new char[MAX_SIZE - CRP_MIN_SIZE];
     char *tmp = new char[MAX_SIZE];
-    Header *hdr = (Header *)tmp;
-    hdr->data = new char[sizeof(buff)];
+    dataPackge *hdr = (dataPackge *)tmp;
     hdr->type = 2;
     hdr->flag = 1;
     memcpy(hdr->data, myName.c_str(), myName.length()) ;
     hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
-    cout << hdr->length << endl;
     tcMessage.send((char *)hdr, hdr->length, 0);
     memset(hdr->data, 0, sizeof(hdr->data));
 
     while (true) {
         cout << "请在以下的对话框输入信息，按回车发送\n" << endl;
-        memset(buff, 0, sizoef(buff));
         memset(hdr->data, 0, sizeof(hdr->data));
-        scanf("%[^\n]s", buff);
+        scanf("%[^\n]s", hdr->data);
         getchar();
         hdr->type = 3;
         hdr->flag = 2;
-        hdr->data = buff;
         hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
         tcMessage.send((char *)hdr, hdr->length, 0);
         system("clear");
