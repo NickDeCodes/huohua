@@ -101,6 +101,7 @@ void sendMessage() {
     char *buff = new char[MAX_SIZE - CRP_MIN_SIZE];
     char *tmp = new char[MAX_SIZE];
     Header *hdr = (Header *)tmp;
+    hdr->data = new char[sizeof(buff)];
     hdr->type = 2;
     hdr->flag = 1;
     memcpy(hdr->data, myName.c_str(), myName.length()) ;
