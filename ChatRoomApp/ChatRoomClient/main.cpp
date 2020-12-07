@@ -72,16 +72,18 @@ void recvMessage() {
     Header *hdr = (Header *)tmp;
     while (true) {
         tcMessage.recv((char *)hdr, MAX_SIZE, 0);
-        if (hdr->type == 2) {
-            if (hdr->flag == 1) {
-                cout << "system message: " << hdr->data << endl;
-            } else if (hdr->flag == 2) {
-                cout << "group chat: " << hdr->data << endl;
-            } else if (hdr->flag == 3) {
-                cout << "single chat: " << hdr->data << endl;
+        if (hdr->length < CRP_MIN_SIZE) {
+            if (hdr->type == 3) {
+                if (hdr->flag == 1) {
+                    cout << "system message: " << hdr->data << endl;
+                } else if (hdr->flag == 2) {
+                    cout << "group chat: " << hdr->data << endl;
+                } else if (hdr->flag == 3) {
+                    cout << "single chat: " << hdr->data << endl;
+                }
+            } else {
+                continue;
             }
-        } else {
-            continue;
         }
     }
     return ;
@@ -90,7 +92,7 @@ void recvMessage() {
 void sendMessage() {
     char *tmp = new char[MAX_SIZE];
     Header *hdr = (Header *)tmp;
-    hdr->type = 3;
+    hdr->type = 2;
     hdr->flag = 1;
     memcpy(hdr->data, myName.c_str(), myName.length()) ;
     hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
@@ -98,17 +100,17 @@ void sendMessage() {
     tcMessage.send((char *)hdr, hdr->length, 0);
     memset(hdr->data, 0, sizeof(hdr->data));
 
-    // while (true) {
-    //     cout << "请在以下的对话框输入信息，按回车发送\n" << endl;
-    //     scanf("%[^\n]s", hdr->data);
-    //     getchar();
-    //     hdr->type = 2;
-    //     hdr->flag = 2;
-    //     hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
-    //     tcMessage.send((char *)hdr, hdr->length, 0);
-    //     memset(hdr->data, 0, sizeof(hdr->data));
-    //     system("clear");
-    // }
+    while (true) {
+        cout << "请在以下的对话框输入信息，按回车发送\n" << endl;
+        scanf("%[^\n]s", hdr->data);
+        getchar();
+        hdr->type = 3;
+        hdr->flag = 2;
+        hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
+        tcMessage.send((char *)hdr, hdr->length, 0);
+        memset(hdr->data, 0, sizeof(hdr->data));
+        system("clear");
+    }
     return ;
 }
 
@@ -126,8 +128,8 @@ int main(int argc,char ** argv) {
         tcMessage.connect(ChatRoomAppIP, ChatRoomAppPort);
         try {
             tcPool.exec(bind(&heartBeat));
-            //tcPool.exec(bind(&recvMessage));
-            //tcPool.exec(bind(&sendMessage));
+            tcPool.exec(bind(&recvMessage));
+            tcPool.exec(bind(&sendMessage));
         } catch(exception &ex) {
             cerr << "ex:" << ex.what() << endl;    
         } catch(...) {
