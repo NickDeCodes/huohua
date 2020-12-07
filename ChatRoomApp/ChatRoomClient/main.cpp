@@ -75,7 +75,11 @@ void recvMessage() {
         if (hdr->length < CRP_MIN_SIZE) {
             return ;
         } else {
-            if (hdr->type == 3) {
+            if (hdr->type == 2) {
+                if (hdr->flag == 1) {
+                    exit();
+                }
+            } else if (hdr->type == 3) {
                 if (hdr->flag == 1) {
                     ofile << "system message: " << hdr->data << endl;
                 } else if (hdr->flag == 2) {
