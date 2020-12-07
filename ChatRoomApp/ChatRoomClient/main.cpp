@@ -53,6 +53,10 @@ void heartBeat() {
         
         memset(hdr, 0, hdr->length);
         tcMessage.recv((char *)hdr, MAX_SIZE, 0);
+        if (hdr->length < CRP_MIN_SIZE) {
+            return ;
+        } 
+        
         if (hdr->type == 1) {
             cout << "--CRP: length " << hdr->length << " type: " << hdr->type << " falg: " << hdr->flag <<" data: " << hdr->data << endl; 
         } else {
