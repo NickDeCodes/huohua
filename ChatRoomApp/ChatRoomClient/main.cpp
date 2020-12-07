@@ -105,14 +105,15 @@ void sendMessage() {
     memset(hdr->data, 0, sizeof(hdr->data));
 
     while (true) {
-        memset(hdr->data, 0, sizeof(hdr->data));
         cout << "请在以下的对话框输入信息，按回车发送\n" << endl;
+        memset(hdr->data, 0, sizeof(hdr->data));
         scanf("%[^\n]s", hdr->data);
         getchar();
         hdr->type = 3;
         hdr->flag = 2;
         hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
         tcMessage.send((char *)hdr, hdr->length, 0);
+        memset(hdr->data, 0, sizeof(hdr->data));
         system("clear");
     }
     return ;
