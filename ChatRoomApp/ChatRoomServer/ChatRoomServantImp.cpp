@@ -40,7 +40,7 @@ int ChatRoomServantImp::sendAll(Header *hdr) {
         TLOGDEBUG("循环" << endl);        
         TC_Socket tcAll;
         tcAll.init(iter->second.fd, true);
-        tcAll.send((char *)hdr, hdr->length, 0);
+        //tcAll.send((char *)hdr, hdr->length, 0);
         ++iter;
     }
     return 0;
