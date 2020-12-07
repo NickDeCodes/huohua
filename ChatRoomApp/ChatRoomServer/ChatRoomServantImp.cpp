@@ -33,11 +33,12 @@ int ChatRoomServantImp::cleanNode() {
     return 0;
 }
 
-int ChatRoomServantImp::sendAll() {
+int ChatRoomServantImp::sendAll(tars::TarsCurrentPtr current, Header *hdr) {
     auto iter = nodeMap.begin();
     while (iter != nodeMap.end()) {
         TC_Socket tcAll;
-        tcAll.init(iter->secend->fd, true);
+        tcAll.init(iter->second->fd, true);
+        tcAll.send((char *)hdr, hdr->length, 0);
     }
     return 0;
 }
@@ -78,7 +79,6 @@ int ChatRoomServantImp::doRequest(tars::TarsCurrentPtr current, vector<char>& re
         if (hdr->flag == 1) {
             TLOGDEBUG("system inform: " << hdr->data << endl);
         } else if (hdr->flag == 2) {
-            current->sendResponse(pack, hdr->length);  
             sendAll();
         } else if (hdr->flag == 3) {
 

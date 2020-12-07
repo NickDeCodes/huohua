@@ -63,7 +63,7 @@ public:
 
     virtual int cleanNode();
 
-    virtual int sendAll();
+    virtual int sendAll(tars::TarsCurrentPtr current, Header *hdr);
 
     virtual int sendTo(tars::TarsCurrentPtr current, Node *to);
 
