@@ -74,6 +74,7 @@ int ChatRoomServantImp::doRequest(tars::TarsCurrentPtr current, vector<char>& re
         auto iter = nodeMap.find(user.name);
         if (iter != nodeMap.end()) {
             TLOGDEBUG(user.name << "-用户已存在" << endl);        
+            return 0;
         } else {
             nodeMap.insert({user.name, user});
             TLOGDEBUG(user.name << "-login! " << endl);        
