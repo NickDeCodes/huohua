@@ -77,7 +77,7 @@ void recvMessage() {
         } else {
             if (hdr->type == 2) {
                 if (hdr->flag == 1) {
-                    exit();
+                    return ;
                 }
             } else if (hdr->type == 3) {
                 if (hdr->flag == 1) {
