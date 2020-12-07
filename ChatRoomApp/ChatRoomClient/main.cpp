@@ -6,9 +6,7 @@
  ************************************************************************/
 
 #include <iostream>
-using namespace std;
-
-#include <iostream>
+#include <fstream>
 #include "servant/Communicator.h"
 #include "ChatRoomServant.h"
 #include "util/tc_thread_pool.h"
@@ -62,7 +60,7 @@ void heartBeat() {
         } else {
             continue;
         }
-        sleep(5);
+        sleep(60);
     }
     return ;
 }
@@ -72,21 +70,25 @@ void recvMessage() {
     Header *hdr = (Header *)tmp;
     while (true) {
         tcMessage.recv((char *)hdr, MAX_SIZE, 0);
+        std::ofstream ofile;
+        ofile.open(myName, std::ios::out | std::ios::app);
         if (hdr->length < CRP_MIN_SIZE) {
             return ;
         } else {
             if (hdr->type == 3) {
                 if (hdr->flag == 1) {
-                    cout << "system message: " << hdr->data << endl;
+                    ofile << "system message: " << hdr->data << endl;
                 } else if (hdr->flag == 2) {
-                    cout << "group chat: " << hdr->data << endl;
+                    ofile << "group chat: " << hdr->data << endl;
                 } else if (hdr->flag == 3) {
-                    cout << "single chat: " << hdr->data << endl;
+                    ofile << "single chat: " << hdr->data << endl;
                 }
+                cout.flush();
             } else {
                 continue;
             }
         }
+        ofile.close();
     }
     return ;
 }
