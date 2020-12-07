@@ -61,11 +61,11 @@ public:
 
     virtual int doRequest(tars::TarsCurrentPtr current, vector<char>& response);
 
-    virtual int ChatRoomServantImp::cleanNode(tars::TarsCurrentPtr current);
+    virtual int cleanNode(tars::TarsCurrentPtr current);
 
-    virtual int ChatRoomServantImp::sendAll(tars::TarsCurrentPtr current);
+    virtual int sendAll(tars::TarsCurrentPtr current);
 
-    virtual int ChatRoomServantImp::sendTo(tars::TarsCurrentPtr current, Node *to);
+    virtual int sendTo(tars::TarsCurrentPtr current, Node *to);
 
 };
 /////////////////////////////////////////////////////
