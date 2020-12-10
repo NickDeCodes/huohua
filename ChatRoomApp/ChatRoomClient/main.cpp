@@ -57,7 +57,6 @@ void heartBeat() {
 
         tcMessage.send((char *)hdr, hdr->length, 0);
         memset(hdr, 0, hdr->length);
-        sleep(60);
         tcMessage.recv((char *)hdr, MAX_SIZE, 0);
         
         if (hdr->length < CRP_MIN_SIZE) {
@@ -72,7 +71,8 @@ void heartBeat() {
             cout << "hdr->type error" << hdr->type << endl;
             break;
         }
-        
+
+        sleep(5);
     }
     return ;
 }
