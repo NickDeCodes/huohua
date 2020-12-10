@@ -63,13 +63,15 @@ void heartBeat() {
             return ;
         } 
         
-        switch (hdr->type) {
-        case 1: 
-            cout << "heartBeat--CRP length: " << hdr->length << " type: " << hdr->type << " flag: " << hdr->flag <<" data: " << hdr->data << endl; 
-            break;
-        default: 
+        if (hdr->type == 1) {
+            cout << "heartBeat--CRP length: " 
+            << hdr->length << " type: " 
+            << hdr->type << " flag: " 
+            << hdr->flag <<" data: " 
+            << hdr->data << endl; 
+        } else { 
             cout << "hdr->type error" << hdr->type << endl;
-            break;
+            continue ;
         }
 
         sleep(5);
