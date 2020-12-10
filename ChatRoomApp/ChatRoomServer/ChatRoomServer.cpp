@@ -26,29 +26,24 @@ struct CRProtocolStream {
 
 ChatRoomServer g_app;
 
-/////////////////////////////////////////////////////////////////
-void
-ChatRoomServer::initialize()
-{
+void ChatRoomServer::initialize() {
     //initialize application here:
     //...
 
     addServant<ChatRoomServantImp>(ServerConfig::Application + "." + ServerConfig::ServerName + ".ChatRoomServantObj");
     addServantProtocol(ServerConfig::Application + "." + ServerConfig::ServerName + ".ChatRoomServantObj", &CRProtocolStream::parse);
 }
-/////////////////////////////////////////////////////////////////
-void
-ChatRoomServer::destroyApp()
-{
+
+void ChatRoomServer::destroyApp() {
     //destroy application here:
     //...
 }
-/////////////////////////////////////////////////////////////////
-int main(int argc, char* argv[]) {
+
+int main(int argc, char *argv[]) {
     try {
         g_app.main(argc, argv);
         g_app.waitForShutdown();
-    } catch (std::exception& e) {
+    } catch (std::exception &e) {
         cerr << "std::exception:" << e.what() << std::endl;
     } catch (...) {
         cerr << "unknown exception." << std::endl;

@@ -65,63 +65,7 @@ void heartBeat() {
     return ;
 }
 
-// void recvMessage() {
-//     char  *tmp = new char[MAX_SIZE];
-//     Header *hdr = (Header *)tmp;
-//     while (true) {
-//         tcMessage.recv((char *)hdr, MAX_SIZE, 0);
-//         std::ofstream ofile;
-//         ofile.open("./" + myName + ".log", std::ios::out | std::ios::app);
-//         if (hdr->length < CRP_MIN_SIZE) {
-//             return ;
-//         } else {
-//             if (hdr->type == 2) {
-//                 if (hdr->flag == 1) {
-//                     return ;
-//                 }
-//             } else if (hdr->type == 3) {
-//                 if (hdr->flag == 1) {
-//                     ofile << "system message: " << hdr->data << endl;
-//                 } else if (hdr->flag == 2) {
-//                     ofile << "group chat: " << hdr->data << endl;
-//                 } else if (hdr->flag == 3) {
-//                     ofile << "single chat: " << hdr->data << endl;
-//                 }
-//                 cout.flush();
-//             } else {
-//                 continue;
-//             }
-//         }
-//         ofile.close();
-//     }
-//     return ;
-// }
-
-// void sendMessage() {
-//     char *tmp = new char[MAX_SIZE];
-//     Header *hdr = (Header *)tmp;
-//     hdr->type = 2;
-//     hdr->flag = 1;
-//     memcpy(hdr->data, myName.c_str(), myName.length()) ;
-//     hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
-//     tcMessage.send((char *)hdr, hdr->length, 0);
-//     memset(hdr->data, 0, sizeof(hdr->data));
-
-//     while (true) {
-//         cout << "请在以下的对话框输入信息，按回车发送\n" << endl;
-//         memset(hdr->data, 0, sizeof(hdr->data));
-//         cin >> hdr->data;
-//         hdr->type = 3;
-//         hdr->flag = 2;
-//         hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
-//         tcMessage.send((char *)hdr, hdr->length, 0);
-//         memset(hdr->data, 0, sizeof(hdr->data));
-//         system("clear");
-//     }
-//     return ;
-// }
-
-int main(int argc,char ** argv) {
+int main(int argc, char **argv) {
     if (argc != 2) {
         cout << "usage: " << argv[0] << " Name" << endl;
         return -1;  
@@ -134,71 +78,7 @@ int main(int argc,char ** argv) {
         tcMessage.createSocket();
         tcMessage.connect(ChatRoomAppIP, ChatRoomAppPort);
         tcPool.exec(bind(&heartBeat));
-        try {
-            int pid = 0;
-            if ((pid = fork())< 0) {
-                perror("fork");
-                exit(1);
-            }
-
-            if (pid != 0) {
-               char  *tmp = new char[MAX_SIZE];
-    Header *hdr = (Header *)tmp;
-    while (true) {
-        tcMessage.recv((char *)hdr, MAX_SIZE, 0);
-        std::ofstream ofile;
-        ofile.open("./" + myName + ".log", std::ios::out | std::ios::app);
-        if (hdr->length < CRP_MIN_SIZE) {
-            return 0;
-        } else {
-            if (hdr->type == 2) {
-                if (hdr->flag == 1) {
-                    return 0;
-                }
-            } else if (hdr->type == 3) {
-                if (hdr->flag == 1) {
-                    ofile << "system message: " << hdr->data << endl;
-                } else if (hdr->flag == 2) {
-                    ofile << "group chat: " << hdr->data << endl;
-                } else if (hdr->flag == 3) {
-                    ofile << "single chat: " << hdr->data << endl;
-                }
-                cout.flush();
-            } else {
-                continue;
-            }
-        }
-        ofile.close();
-    } 
-            } else {
-                char *tmp = new char[MAX_SIZE];
-    Header *hdr = (Header *)tmp;
-    hdr->type = 2;
-    hdr->flag = 1;
-    memcpy(hdr->data, myName.c_str(), myName.length()) ;
-    hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
-    tcMessage.send((char *)hdr, hdr->length, 0);
-    memset(hdr->data, 0, sizeof(hdr->data));
-
-    while (true) {
-        cout << "请在以下的对话框输入信息，按回车发送\n" << endl;
-        memset(hdr->data, 0, sizeof(hdr->data));
-        cin >> hdr->data;
-        hdr->type = 3;
-        hdr->flag = 2;
-        hdr->length = CRP_MIN_SIZE + strlen(hdr->data);
-        tcMessage.send((char *)hdr, hdr->length, 0);
-        memset(hdr->data, 0, sizeof(hdr->data));
-        system("clear");
-    }
-            }
-        } catch(exception &ex) {
-            cerr << "ex:" << ex.what() << endl;    
-        } catch(...) {
-            cerr << "unknown exception." << endl;    
-        }
-        tcPool.waitForAllDone();
-    } catch(exception& e) {
+    } catch(exception &e) {
         cerr << "exception:" << e.what() << endl;
     } catch (...) {
         cerr << "unknown exception." << endl;

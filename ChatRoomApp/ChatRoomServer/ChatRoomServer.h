@@ -9,8 +9,7 @@ using namespace tars;
 /**
  *
  **/
-class ChatRoomServer : public Application
-{
+class ChatRoomServer : public Application {
 public:
     /**
      *

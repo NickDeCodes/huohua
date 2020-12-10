@@ -31,8 +31,7 @@ struct Node {
  *
  *
  */
-class ChatRoomServantImp : public ChatRoomApp::ChatRoomServant
-{
+class ChatRoomServantImp : public ChatRoomApp::ChatRoomServant {
 public:
     /**
      *
@@ -52,7 +51,7 @@ public:
     /**
      *
      */
-    virtual int test(tars::TarsCurrentPtr current) { return 0;};
+    virtual int test(tars::TarsCurrentPtr current) { return 0; };
 
     /**
      *
