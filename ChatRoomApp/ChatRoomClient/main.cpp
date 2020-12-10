@@ -45,7 +45,7 @@ Header *setHeader(int type, int flag, const char *data) {
 
     hdr->type = type;
     hdr->flag = flag;
-    memcpy(gdr->data, data, strlen(data));
+    memcpy(hdr->data, data, strlen(data));
     hdr->length = CRP_MIN_SIZE + strlen(data);
     
     return hdr;
