@@ -26,7 +26,7 @@ int ChatRoomServantImp::testHello(const std::string &sReq, std::string &sRsp, ta
 }
 
 int ChatRoomServantImp::cleanNode() {
-    
+
     return 0;
 }
 
@@ -54,9 +54,28 @@ int ChatRoomServantImp::doRequest(tars::TarsCurrentPtr current, vector<char> &re
         TLOGDEBUG("request is empty!!!: " << current->getUId() << endl);
         return 0;    
     }
-        
+
     const char *pack = &request[0];
     Header *hdr = (Header *)pack;
+
+    switch (hdr->type) {
+    case 1:
+        TLOGDEBUG("--CRP: length: " << hdr->length << 
+                " type: " << hdr->type << 
+                " flag: " << hdr->flag << 
+                " data: " << hdr->data << 
+                " uid: "<< current->getUId() << endl);
+        memcpy(hdr->data, "pang", strlen("pang"));
+        current->sendResponse(pack, hdr->length); 
+        break;
+    case 2:
+        break;
+    case 3:
+        break;
+    default:
+        TLOGDEBUG("hdr->type error!!!: " << hdr->type << endl);
+        break;
+    }
 
     return 0;
 }

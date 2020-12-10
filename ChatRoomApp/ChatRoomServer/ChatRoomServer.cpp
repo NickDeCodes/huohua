@@ -16,7 +16,7 @@ struct CRProtocolStream {
         }
 
         strOutput = strInput.substr(0, pHDR->length);
-        TLOGDEBUG("length: " << pHDR->length << " type: "<< pHDR->type << " flag: " << pHDR->flag << endl);
+        TLOGDEBUG("CRProtocolStream::parse length: " << pHDR->length << " type: "<< pHDR->type << " flag: " << pHDR->flag << endl);
 
         strInput = strInput.substr(pHDR->length);
             

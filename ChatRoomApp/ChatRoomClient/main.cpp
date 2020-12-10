@@ -39,28 +39,40 @@ string myName;
 TC_ThreadPool tcPool;
 TC_Socket tcMessage;
 
-void heartBeat() {
+Header *setHeader(int type, int flag, const char *data) {
     char *tmp = new char[MAX_SIZE];
     Header *hdr = (Header *)tmp;
+
+    hdr->type = type;
+    hdr->flag = flag;
+    memcpy(gdr->data, data, strlen(data));
+    hdr->length = CRP_MIN_SIZE + strlen(data);
+    
+    return hdr;
+}
+
+void heartBeat() {
     while (true) {
-        hdr->type = 1;
-        hdr->flag = 1;
-        memcpy(hdr->data, "ping", strlen("ping")); 
-        hdr->length = CRP_MIN_SIZE + strlen("ping");
+        Header *hdr = setHeader(1, 1, "ping");
+
         tcMessage.send((char *)hdr, hdr->length, 0);
-        
         memset(hdr, 0, hdr->length);
+        sleep(60);
         tcMessage.recv((char *)hdr, MAX_SIZE, 0);
+        
         if (hdr->length < CRP_MIN_SIZE) {
             return ;
         } 
         
-        if (hdr->type == 1) {
-            cout << "--CRP length: " << hdr->length << " type: " << hdr->type << " flag: " << hdr->flag <<" data: " << hdr->data << endl; 
-        } else {
-            continue;
+        switch (hdr->type) {
+        case 1: 
+            cout << "heartBeat--CRP length: " << hdr->length << " type: " << hdr->type << " flag: " << hdr->flag <<" data: " << hdr->data << endl; 
+            break;
+        default: 
+            cout << "hdr->type error" << hdr->type << endl;
+            break;
         }
-        sleep(60);
+        
     }
     return ;
 }
