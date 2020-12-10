@@ -63,17 +63,19 @@ void heartBeat() {
             return ;
         } 
         
-        if (hdr->type == 1) {
+        switch (hdr->type) {
+        case 1: 
             cout << "heartBeat--CRP length: " 
             << hdr->length << " type: " 
             << hdr->type << " flag: " 
             << hdr->flag <<" data: " 
             << hdr->data << endl; 
-        } else { 
+            break;
+        default: 
             cout << "hdr->type error" << hdr->type << endl;
-            continue ;
+            break;
         }
-
+        
         sleep(5);
     }
     return ;
@@ -92,6 +94,7 @@ int main(int argc, char **argv) {
         tcMessage.createSocket();
         tcMessage.connect(ChatRoomAppIP, ChatRoomAppPort);
         tcPool.exec(bind(&heartBeat));
+        tcPool.waitForAllDone();
     } catch(exception &e) {
         cerr << "exception:" << e.what() << endl;
     } catch (...) {
